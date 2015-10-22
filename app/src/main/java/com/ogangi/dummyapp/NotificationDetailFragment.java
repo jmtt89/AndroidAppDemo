@@ -68,7 +68,9 @@ public class NotificationDetailFragment extends Fragment {
             data = "<h3>An error has been occurred, please try again</h3>";
         }
 
-        WebView webview = (WebView)getActivity().findViewById(R.id.webView);
+
+        WebView webview = (WebView)rootView.findViewById(R.id.webView);
+        webview.getSettings().setJavaScriptEnabled(true);
         webview.loadData(data, "text/html; charset=utf-8", "UTF-8");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

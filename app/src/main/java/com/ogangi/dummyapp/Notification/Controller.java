@@ -11,16 +11,6 @@ import java.util.Map;
  * Basic Controller for use Notification more Easy
  */
 public class Controller {
-
-    static {
-        // Add 25 sample items.
-
-        for (int i = 0; i < 25; i++) {
-            String value = String.valueOf(i+1);
-            addItem(new Notification(value,"Item "+value,"<div>Content Item "+value+"</div>",new Date()));
-        }
-    }
-
     /**
      * An array of Notifications.
      */
@@ -31,7 +21,16 @@ public class Controller {
      */
     private static Map<String, Notification> Notifications_map = new HashMap<>();
 
-    public static List getNotifications() {
+    static {
+        // Add 25 sample items.
+
+        for (int i = 0; i < 25; i++) {
+            String value = String.valueOf(i+1);
+            addItem(new Notification(value,"Item "+value,"<div>Content Item "+value+"</div>",new Date()));
+        }
+    }
+
+    public static List<Notification> getNotifications() {
         return Notifications;
     }
 
