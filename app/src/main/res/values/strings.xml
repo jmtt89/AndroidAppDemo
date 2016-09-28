@@ -3,4 +3,19 @@
     <string name="title_notification_detail">Notification Detail</string>
     <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum odio elit, lacinia id egestas vitae, dignissim id justo. Sed imperdiet ac metus sit amet luctus. In purus orci, pharetra a convallis eget, fringilla nec arcu. Etiam rutrum mauris vitae enim lobortis, eget aliquet nisi fermentum. Fusce non consequat nisl, id hendrerit dolor. Donec accumsan volutpat metus, vitae efficitur quam consequat non. Nulla sem elit, facilisis at semper sit amet, aliquam ac leo. Praesent accumsan ultricies est at vehicula. Donec eu consequat tellus, sed suscipit metus. Nam at auctor urna. Sed bibendum bibendum lectus, vestibulum condimentum ex mattis eget. Morbi turpis nisl, fringilla vestibulum magna in, bibendum porttitor nisl. Donec mattis ligula non egestas tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras a arcu lacus. Cras posuere dolor erat, vel iaculis urna accumsan eu. Vivamus mollis viverra turpis, eget scelerisque mi egestas et. Vivamus in ornare nunc, ac bibendum ligula. Proin sollicitudin nunc magna, quis fermentum orci efficitur id. Phasellus a pulvinar arcu. Suspendisse non erat vel sapien lacinia molestie. Etiam eget massa quis ligula sodales scelerisque.</string>
     <string name="placeholderDate">Fri, 19 Sep 2014</string>
+
+    <string name="new_message_notification_title_template">New message: %1$s</string>
+
+    <!-- TODO: remove this placeholder text -->
+    <string name="new_message_notification_placeholder_text_template">You said %1$s and lorem ipsum
+        dolor sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit vel
+        semper venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis.
+        Pellentesque vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper
+        ornare lacus. Duis ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis
+        viverra rhoncus sit amet nec magna. Donec lacinia ligula at libero volutpat volutpat nec nec
+        tortor.
+    </string>
+
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
 </resources>

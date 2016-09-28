@@ -73,6 +73,27 @@ public class NotificationListActivity extends AppCompatActivity
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
+    @Override
+    protected void onResume() {
+        Messangi.getInstance().bindService();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Messangi.getInstance().unBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        try {
+            Messangi.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setupMessangi() {
         //Here the Credentials sent to you in the Email
         Messangi.getInstance().setAppName("");
