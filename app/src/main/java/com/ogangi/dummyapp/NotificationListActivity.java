@@ -2,11 +2,13 @@ package com.ogangi.dummyapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.ogangi.messangi.android.sdk.Messangi;
 
 
 /**
@@ -39,6 +41,8 @@ public class NotificationListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_app_bar);
 
+        setupMessangi();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -67,6 +71,23 @@ public class NotificationListActivity extends AppCompatActivity
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    private void setupMessangi() {
+        //Here the Credentials sent to you in the Email
+        Messangi.getInstance().setAppName("");
+        Messangi.getInstance().setClientId("");
+        Messangi.getInstance().setApiClientPrivateKey("");
+        // GCM Credentials
+        Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
+        Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
+
+
+        Messangi.getInstance().init(this);
+        Messangi.getInstance().addMessangiListener(Listener.getIntance());
+        Messangi.getInstance().registerDialog(this, this);
+        //If you have your own registration process, and generate your userTokenID can use
+        //Messangi.getInstance().register(this,this,userTokenID);
     }
 
     /**

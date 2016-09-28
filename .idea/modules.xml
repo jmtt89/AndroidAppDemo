@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidAppSkeleton.iml" filepath="$PROJECT_DIR$/AndroidAppSkeleton.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messangisdk/messangisdk.iml" filepath="$PROJECT_DIR$/messangisdk/messangisdk.iml" />
     </modules>
   </component>
 </project>
