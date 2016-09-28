@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.ogangi.dummyapp.Notification.Controller;
-import com.ogangi.dummyapp.Notification.Notification;
+import com.ogangi.messangi.android.sdk.Messangi;
+import com.ogangi.messangi.android.sdk.vo.MessageVO;
 
 /**
  * A fragment representing a single Notification detail screen.
@@ -29,7 +29,7 @@ public class NotificationDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private Notification notify;
+    private MessageVO notify;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,12 +46,12 @@ public class NotificationDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            notify = Controller.getNotification(getArguments().getString(ARG_ITEM_ID));
+            notify = Messangi.getInstance().getDefaultWorkspace().getMessage(getContext(),getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(notify.title);
+                appBarLayout.setTitle(notify.getSubject());
             }
         }
     }
@@ -63,7 +63,7 @@ public class NotificationDetailFragment extends Fragment {
 
         String data;
         if(notify != null) {
-            data = notify.html;
+            data = notify.getText();
         }else{
             data = "<h3>An error has been occurred, please try again</h3>";
         }

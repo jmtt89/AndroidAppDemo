@@ -3,11 +3,15 @@ package com.ogangi.dummyapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.ogangi.dummyapp.Notification.Controller;
+import com.ogangi.messangi.android.sdk.Messangi;
+import com.ogangi.messangi.android.sdk.vo.MessageVO;
+
+import java.util.ArrayList;
+
 
 /**
  * A list fragment representing a list of Notifications. This fragment
@@ -74,7 +78,9 @@ public class NotificationListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new NotificationAdapter(getActivity(), Controller.getNotifications());
+
+        mAdapter = new NotificationAdapter(getActivity(), new ArrayList<MessageVO>());
+        mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
         setListAdapter(mAdapter);
     }
 
@@ -87,6 +93,20 @@ public class NotificationListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Messangi.getInstance().getUnreadMessages(getContext());
+                // Remember to CLEAR OUT old items before appending in the new ones
+                mAdapter.clear();
+                // ...the data has come back, add new items to your adapter...
+                mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -115,7 +135,8 @@ public class NotificationListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(Controller.getNotification(position).id);
+
+        mCallbacks.onItemSelected(mAdapter.getItem(position).getId());
     }
 
     @Override
