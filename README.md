@@ -20,9 +20,9 @@ Select **File > Open**, browse to where you cloned the repository, and open it  
 
 The Base application, without MessangiSDK integration can be found over the tag **baseApp**.
 -------
-## Configure **GCM**
+## Configure **Google Cloud Messaging**
 
-Go to https://developers.google.com/mobile/add, select *Pick a platform*, then *Enable services for my Android App*, enter your App name (for this example AndroidAppSkeleton) and your app's package name (for this example is **com.ogangi.dummyapp**) . It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file matches the package name you entered. Press *Choose and configure services*, select *Cloud Messaging* and press *Enable Google Cloud messaging*, select *Generate configuration files* and press *Download google-services.json*. Once you have the json file you have all you needed from that page.
+Go to https://developers.google.com/mobile/add, select *Pick a platform*, then *Enable services for my Android App*, enter your **own App name** and your app's package name (for this example **com.ogangi.dummyapp**) . It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file matches the package name you entered. Press *Choose and configure services*, select *Cloud Messaging* and press *Enable Google Cloud messaging*, select *Generate configuration files* and press *Download google-services.json*. Once you have the json file you have all you needed from that page.
 
 ### Add the configuration file to your project
 
@@ -59,15 +59,11 @@ Messangi is a platform created to handle omnichannel communications, that allows
 
 ### Messangi Account 
 
-Go to https://messangi.com/messangi_mmc/public and click on **sign up** to create a new account, **check your email** for get your **Messangi Credentials**.
+Go to https://messangi.com/messangi_mmc/ and click on **Sign up** to create a new account, **check your email** to get your **Messangi Credentials**.
 
 ### Request a GCM - Messangi Linking
-//>> Nota, capaz existe una forma de automatizar esto o realizarlo sin necesidad de recurrir al personal de ogangi, actualmente yo lo que hago es solicitarle a Manu u Oscar
 
-Send a email to {Por definir preguntale a pancho} with **google-services.json** attached for request a linking the credentials and handler the push service.
-
-After you complete the registration, download the **google-services.json** file and add to your project.
-
+Send an email to *support@ogangi.com* with your Messangi credentials you've got and the **google-services.json** file attached to request the linking between your credentials and handler the push service.
 
 --------
 ## Configure Messangi SDK
