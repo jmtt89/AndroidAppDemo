@@ -1,17 +1,14 @@
-Getting Started - Android
+Getting Started - Android Integration
 ===================
-[TOC]
 
-Use our Android sample app to see how Messangi SDK works, or add our library to your existing app, we use **tags** over a key moments in the integration. 
+Use this Android sample app to prove how Messangi SDK works, or add our library to your existing app following these steps. We use **tags** in the Github repository over key moments in the integration.
 
-**Required**: The latest versions of Android Studio and Google Play Services. 
-
-The Base application, without MessangiSDK integration can be found over the tag #baseApp
+**Required**: The latest versions of Android Studio and Git installed on your system.
 
 -----
 ##Get the project
 
-If this is your first time using a Messangi App sample, check out the repository.
+Check out the repository in the directory you choose using git:
 
 ```shell
 $ git clone https://github.com/jmtt89/AndroidAppSkeleton.git
@@ -21,24 +18,17 @@ Open Android Studio.
 
 Select **File > Open**, browse to where you cloned the repository, and open it  (if you are in the Android Studio start screen, you can select Import Non-Android Studio project and use this same path).
 
-
+The Base application, without MessangiSDK integration can be found over the tag **baseApp**.
 -------
 ## Configure **GCM**
 
-Use the package name **com.ogangi.dummyapp** for the sample.
-
-After you complete the registration, download the **google-services.json** file and add to your project.
-
-This section are ready but for security reason can't be uploaded to the Repository, your need add your own **google-services.json** file..
-
-###Create an API project
-
-Go to https://developers.google.com/mobile/add and, when prompted, enter your app's package name(for this example is **com.ogangi.dummyapp**). It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file matches the package name you entered. 
-At the end, you'll download a google-services.json file. You can download this file again at any time.
+Go to https://developers.google.com/mobile/add, select *Pick a platform*, then *Enable services for my Android App*, enter your App name (for this example AndroidAppSkeleton) and your app's package name (for this example is **com.ogangi.dummyapp**) . It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file matches the package name you entered. Press *Choose and configure services*, select *Cloud Messaging* and press *Enable Google Cloud messaging*, select *Generate configuration files* and press *Download google-services.json*. Once you have the json file you have all you needed from that page.
 
 ### Add the configuration file to your project
+
 Copy the **google-services.json** file you just downloaded **into** the **app/ or mobile/ directory of your Android Studio project**. 
-Open the Android Studio Terminal pane:
+
+Open the Android Studio Terminal pane and use:
 
 ```shell
 $ mv path-to-download/google-services.json app/
@@ -46,22 +36,26 @@ $ mv path-to-download/google-services.json app/
 
 ### Add Google Services Gradle Plugin
 
-As part of enabling Google APIs in your Android application you may have to add the google-services plugin to your build.gradle file:
+As part of enabling Google APIs in your Android application you have to add the google-services plugin to your project-level build.gradle file:
+
 ```Gradle
 dependencies {
     classpath 'com.google.gms:google-services:3.0.0'
     // ...
 }
 ```
-Add dependencies for basic libraries required for the services you have enabled. This step **requires add this line** 
+Add dependencies for basic libraries required for the services you have enabled. To this, add the plugin to your app-level build.gradle: 
+
 ```gradle
 apply plugin: 'com.google.gms.google-services' 
 ```
-**At the bottom of your app/build.gradle file** so that no dependency collisions are introduced. 
+
+**At the bottom of your app/build.gradle file** so no dependency collisions are introduced. 
 
 -------
 ## Create Messangi Account
-//>> Agregar aqui una explicacion corta de que es messangi y porque es cool
+
+Messangi is a platform created to handle omnichannel communications, allowing companies to enhance their engagement 
 
 ### Messangi Account 
 Go to https://messangi.com/messangi_mmc/public and click on **sign up** to create a new account, **check your email** for get your **Messangi Credentials**.
@@ -70,6 +64,8 @@ Go to https://messangi.com/messangi_mmc/public and click on **sign up** to creat
 //>> Nota, capaz existe una forma de automatizar esto o realizarlo sin necesidad de recurrir al personal de ogangi, actualmente yo lo que hago es solicitarle a Manu u Oscar
 
 Send a email to {Por definir preguntale a pancho} with **google-services.json** attached for request a linking the credentials and handler the push service.
+
+After you complete the registration, download the **google-services.json** file and add to your project.
 
 
 --------
