@@ -55,9 +55,10 @@ apply plugin: 'com.google.gms.google-services'
 -------
 ## Create Messangi Account
 
-Messangi is a platform created to handle omnichannel communications, allowing companies to enhance their engagement 
+Messangi is a platform created to handle omnichannel communications, that allows companies to enhance their engagement with their customers. Messangi provides channels like sms, email and push notifications and also adds above them some value-added products, such as geofences, scratchcards, mobile wallets and more. If you want to take advantage of all the power of Messangi platform inside your Android mobile apps, you just need to download the Messangi SDK, add it to your app, set up your account and start coding.
 
 ### Messangi Account 
+
 Go to https://messangi.com/messangi_mmc/public and click on **sign up** to create a new account, **check your email** for get your **Messangi Credentials**.
 
 ### Request a GCM - Messangi Linking
