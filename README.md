@@ -63,7 +63,7 @@ Go to https://messangi.com/messangi_mmc/ and click on **Sign up** to create a ne
 
 ### Request a GCM - Messangi Linking
 
-Send an email to *support@ogangi.com* with your Messangi credentials you've got and the **google-services.json** file attached to request the linking between your credentials and handler the push service.
+Send an email to *support@ogangi.com* with your Messangi credentials you've received in your registration and attach to it the **google-services.json** file you've received from Google to request the registration of your app in Messangi platform. It's the way to authorize and enable your access to the platform *as developer*.
 
 --------
 ## Configure Messangi SDK
