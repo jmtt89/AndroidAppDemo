@@ -249,7 +249,7 @@ protected void onPause() {
 }
 ```
 
-The synchronization process is very important if your use Geofence, Beacons or Location-aware capabilities, this method synchronize all information in Messangi System; the best moment to do this are on postInit method, is strongly recomended use a Background Thread to all Network calls.
+The synchronization process is very important if you use Geofence, Beacons or Location-aware capabilities. This method synchronizes all information in Messangi System; the best moment to do this are on postInit method, is strongly recomended use a Background Thread to all Network calls.
 
 ```Java
 @Override
@@ -259,7 +259,8 @@ public void postInit() {
 ```
 
 ### Android Permissions
-In Android 6 and upper, the permission process for some functionalities need to be accepted by the user in Runtime, if the user don't accept that, multiples internal functionalities don't work as expected
+
+In Android 6 and above, the permission process for some functionalities needs to be accepted by the user in Runtime, if the user don't accept that, multiples internal functionalities won't work as expected. Use this in your main activity:
 
 ```Java
 @Override
@@ -273,36 +274,40 @@ public void onRequestPermissionsResult(int requestCode, String permissions[], in
 ```
 
 ## Using Messangi SDK
+
 To start in this section you can **checkout the tag MessangiSDKReady**
 
 This section will do the most basic interaction with the library, if you want to make things more complicated please see the section of [advanced topics]().
 
-MessangiSDK support multiple workspaces enviroment, a workspace is equivalent to Messangi Account, so if you want you can create multiple accounts and receive notification from all that in the same app, so for referencing all information stored in every workspace, we provide a **Workspace** Class. 
+MessangiSDK support multiple workspaces enviroment, a workspace is equivalent to a Messangi Account, so if you want you can create multiple accounts and receive notification from all them in the same app, so to referencing all information stored in each workspace, we provide **Workspace** Class. 
 
-This class are the entry point for every information stored in your backend. MessangiSDK provides a easy way to get the default workspace register. The default workspace are the main register in configuration section. 
+This class is the entry point for every information stored in your workspace, accessed thorugh Messangi. MessangiSDK provides a easy way to get the default registered workspace. The default workspace is already set in the main register in configuration section above. When you want to get your default workspace use:
 
 ```Java
 Workspace default = Messangi.getInstance().getDefaultWorkspace();
 ```
 
 ###  List stored messages
-The main functionality of that application are only show stored messages, for that we **remove the placeholder class Notification** and change for the class MessageVO provided by the SDK. 
 
-For List a stored messages only need call **getMessages()** from workspace.
+The main functionality of this example application is only to show stored messages, to start with that functionality **remove the package Notification**, change every reference to it for the class MessageVO provided by the SDK, and replace all Controller.getNotifications() with Messangi.getInstance().getDefaultWorkspace().getMessages().
+
+To list stored messages you only need to call **getMessages()** from workspace.
+
 ```Java
 default.getMessages();
 ```
 
-For get a single message, you need pass context and the messageID, this functionality we use to show a detail view for the message.
+To get a single message, you need pass the context and the messageID, this is the functionality that we use to show a detail view for the message.
 
 ```Java
 default.getMessages(this,"Message ID");
 ```
 
 ### Synchronize unread messages
-The most classic interaction on Android is pull to refresh gesture, so when pull a list we want Messangi update all messages with all new message in the server. 
 
-For easy integration of swipe to refresh, android provides a **SwipeRefreshLayout**, only wrap up your listview or recicle view in layout file 
+The most classic interaction on Android is pull to refresh gesture, so when pulling a list we want Messangi to update all messages with all new messages in the server. 
+
+For easy integration of swipe to refresh, Android provides a **SwipeRefreshLayout**, only wrap up your listview layout or recycle view in layout file
 
 ```xml
 <android.support.v4.widget.SwipeRefreshLayout
@@ -310,13 +315,13 @@ For easy integration of swipe to refresh, android provides a **SwipeRefreshLayou
     android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    ....
+    .... //your layout here
 </android.support.v4.widget.SwipeRefreshLayout>
 ```
-And search in your activity 
+And place this in your activity where the list is on (for this example, NotificationListFragment in onViewCreated() method)
 
 ```Java
-   swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+    swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
     swipeContainer.setOnRefreshListener(new OnRefreshListener() {
         @Override
             public void onRefresh() {
