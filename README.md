@@ -83,6 +83,7 @@ To start in this section you can **checkout the tag GCMReady** with git console 
 - Wait Gradle synchronize.
 
 ### Add Dependencies
+
 - Right Click on your application and select “Open Module Settings”
 - Select app and go to the tab “Dependencies”
 - If MessangiSDK is not a dependency, add it by clicking on “+”, select “module” and “MessangiSDK”.
@@ -99,8 +100,10 @@ compile 'com.google.android.gms:play-services-location:9.4.0'
 compile 'com.google.android.gms:play-services-gcm:9.4.0'
 compile 'org.altbeacon:android-beacon-library:2.9.1'
 ```
+
 ### Add Broadcast Receiver
-Android Studio provide a easy way to generate a Broadcast Receiver, only **right click over the package** will contain, select **New > Other > Broadcast Receiver** add the name you will (for the demo application are **MessangiReceiver**) and Android Studio create a class and add info to Manifest too. 
+
+Android Studio provides an easy way to generate a Broadcast Receiver, only **right click over the package app**, select **New > Other > Broadcast Receiver** add the name you want (for the demo application you can use **MessangiReceiver**) and Android Studio will create automatically a class and add info to the Manifest file too. Change the values if they look diferent in AndroidManifest.xml file:
 
 ```Java
 <receiver
@@ -109,7 +112,8 @@ Android Studio provide a easy way to generate a Broadcast Receiver, only **right
     android:exported="false">
 </receiver>
 ```
-For working with Messangi SDK need **add a intent-filter** with name **com.ogangi.messangi.android.sdk.PUSH_NOTIFICATION**, the receiver in manifest looks like this:
+
+To work with Messangi SDK you need to **add an intent-filter** with name **com.ogangi.messangi.android.sdk.PUSH_NOTIFICATION**, the receiver in manifest looks like this:
 
 ```Java
 <receiver
@@ -121,10 +125,16 @@ For working with Messangi SDK need **add a intent-filter** with name **com.ogang
    </intent-filter>
 </receiver>
 ```
-The intent  deliver to you receiver a json representation of the message, and if you wich, can create a object MessangeVO from that json
 
+The intent  delivers to you a receiver, a json representation of the message and, if you wish, can create an object MessangeVO from that json:
 
 ```Java
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import com.ogangi.messangi.android.sdk.vo.MessageVO;
+
 public class MessangiReceiver extends BroadcastReceiver {
     private static final String TAG = "MessangiReceiver";
 
@@ -148,7 +158,8 @@ public class MessangiReceiver extends BroadcastReceiver {
 ```
 
 ### Add Messangi Listener
-Messangi Module use the interface **MessangiListener** to notify when some event occurs, your only need implement this interface if you want  receive this notifications.
+
+Messangi Module uses the interface **MessangiListener** to notify when some event occurs, your only need to implement (in an external class or inside your main activity) this interface if you want to receive those notifications.
 
 ```java
 public class Listener implements MessangiListener{
@@ -193,7 +204,6 @@ public void onBeaconUpdate(String s, String s1, Workspace workspace) {
     // create, update or delete event.
     // NOT when arrive a Notification of beacon Enter or Exit .
 }
-
 ```
 
 ### Configure Messangi Module
@@ -209,7 +219,7 @@ Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
 Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
 
 Messangi.getInstance().init(this);
-Messangi.getInstance().addMessangiListener(Listener.getIntance());
+Messangi.getInstance().addMessangiListener(Listener.getIntance()); //you also can add an object instance of Listener
 Messangi.getInstance().registerDialog(this, this);
 ```
 When the **Registration process are completed**, the SDK call a **postInit** method **on MessangiListener implementation**. 
