@@ -162,6 +162,12 @@ public class MessangiReceiver extends BroadcastReceiver {
 Messangi Module uses the interface **MessangiListener** to notify when some event occurs, your only need to implement (in an external class or inside your main activity) this interface if you want to receive those notifications.
 
 ```java
+import android.location.Location;
+import com.google.android.gms.location.Geofence;
+import com.ogangi.messangi.android.sdk.MessangiListener;
+import com.ogangi.messangi.android.sdk.Workspace;
+import com.ogangi.messangi.android.sdk.vo.MessageVO;
+...
 public class Listener implements MessangiListener{
 ...
 }
@@ -207,13 +213,15 @@ public void onBeaconUpdate(String s, String s1, Workspace workspace) {
 ```
 
 ### Configure Messangi Module
-Messangi provide multiple way to **include credentials**, but the more easy and straight forward are include in **onCreate** method of the **mainActivity**, if your use a **Application** module like starting point, we support too.
+
+Messangi provides multiple ways to **include credentials**, but the easiest and straight forward way is including them into **onCreate** method of the **main activity**; if you're using an **Application** module as starting point, we support it too.
 
 ```Java
-//Here the Credentials sent to you in the Email
+//Place here the Credentials sent to you in the registration Email
 Messangi.getInstance().setAppName("App name on Email");
-Messangi.getInstance().setClientId("Public Key on Email");
-Messangi.getInstance().setApiClientPrivateKey("Private Key on Email");
+Messangi.getInstance().setClientId("Client Id on Email");
+Messangi.getInstance().setApiClientPrivateKey("Secret Key on Email");
+
 // GCM Credentials
 Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
 Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
@@ -222,9 +230,10 @@ Messangi.getInstance().init(this);
 Messangi.getInstance().addMessangiListener(Listener.getIntance()); //you also can add an object instance of Listener
 Messangi.getInstance().registerDialog(this, this);
 ```
-When the **Registration process are completed**, the SDK call a **postInit** method **on MessangiListener implementation**. 
 
-After Messangi are already configured are strongly recommended add a life circle  indicator, to notify when the app are in Background or Foreground.
+When the **Registration process is completed**, the SDK calls a **postInit** method **on MessangiListener implementation**. 
+
+After Messangi is already configured, it's strongly recommended to add a life cicle indicator, to notify when the app is in Background or Foreground. Add it in your main activity and in all activities where Messangi is invoked.
 
 ```Java
 @Override
@@ -232,6 +241,7 @@ protected void onResume() {
     super.onResume();
     Messangi.getInstance().bindService();
 }
+
 @Override
 protected void onPause() {
     Messangi.getInstance().unBindService();
