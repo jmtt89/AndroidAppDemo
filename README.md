@@ -8,17 +8,23 @@ Use this Android sample app to prove how Messangi SDK works, or add our library 
 -----
 ##Get the project
 
-Check out the repository in the directory you choose using git:
+Clone the repository in the directory you choose using git:
 
 ```shell
 $ git clone https://github.com/jmtt89/AndroidAppSkeleton.git
 ```
 
+The Base application, without MessangiSDK integration can be found over the tag **baseApp**. Hint: chekout it using git console, not using Android Studio repository menu.
+
+```shell
+cd AndroidAppSkeleton
+$ git checkout tags/baseApp
+```
+
 Open Android Studio.
 
-Select **File > Open**, browse to where you cloned the repository, and open it  (if you are in the Android Studio start screen, you can select Import Non-Android Studio project and use this same path).
+If you are in the Android Studio start screen, you can select *Open an existing Android Studio project*, browse where you cloned the repository and open it. If you are already in Android Studio, select **File > Open**, and use this same path.
 
-The Base application, without MessangiSDK integration can be found over the tag **baseApp**.
 -------
 ## Configure **Google Cloud Messaging**
 
@@ -44,14 +50,12 @@ dependencies {
     // ...
 }
 ```
-Add dependencies for basic libraries required for the services you have enabled. To this, add the plugin to your app-level build.gradle: 
+Add dependencies for basic libraries required for the services you have enabled. To this, add the plugin to your app-level build.gradle (**at the BOTTOM of your app/build.gradle file** so no dependency collisions are introduced).
 
 ```gradle
 apply plugin: 'com.google.gms.google-services' 
 ```
-
-**At the bottom of your app/build.gradle file** so no dependency collisions are introduced. 
-
+Sync your project with the changes on gradle.
 -------
 ## Create Messangi Account
 
@@ -67,10 +71,11 @@ Send an email to *support@ogangi.com* with your Messangi credentials you've rece
 
 --------
 ## Configure Messangi SDK
-To start in this section you can **checkout the tag GCMReady**
+To start in this section you can **checkout the tag GCMReady** with git console (OJO REVISAR)
 
 ### Add Messangi Module 
-- [Download Messangi Library]()
+
+- [Download Messangi Library](https://github.com/jmtt89/AndroidAppSkeleton/tree/master/messangisdk)
 - Go to File > New > New Module
 - Select “Import JAR/AAR Package” then “next”
 - Click the button “…” next to the “file name” field. 
@@ -78,19 +83,17 @@ To start in this section you can **checkout the tag GCMReady**
 - Wait Gradle synchronize.
 
 ### Add Dependencies
-- Right Click on Module and select “Open Module Settings”
-- Select the project and go to the tab “Dependencies”
+- Right Click on your application and select “Open Module Settings”
+- Select app and go to the tab “Dependencies”
 - If MessangiSDK is not a dependency, add it by clicking on “+”, select “module” and “MessangiSDK”.
 
-Currently you have to manually add dependencies for MessangiSDK, the Gradle will not automatically add it. 
+Currently you have to manually add dependencies for MessangiSDK, the Gradle will not automatically add them. 
 
-- Go to “Gradle Scripts” > “build.gradle(Module:—projectName—)”
+- Go to “Gradle Scripts” > “build.gradle(Module: app)”
 - Add the lines below in the section dependencies before the line “compile project(‘:messangisdk’)”
 
 ```Gradle
-compile 'com.android.support:support-v4:24.2.1'
 compile 'com.android.support:support-annotations:24.2.1'
-
 compile 'com.google.android.gms:play-services-base:9.4.0'
 compile 'com.google.android.gms:play-services-location:9.4.0'
 compile 'com.google.android.gms:play-services-gcm:9.4.0'
