@@ -321,6 +321,7 @@ For easy integration of swipe to refresh, Android provides a **SwipeRefreshLayou
 And place this in your activity where the list is on (for this example, NotificationListFragment in onViewCreated() method)
 
 ```Java
+    final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
     swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
     swipeContainer.setOnRefreshListener(new OnRefreshListener() {
         @Override
@@ -330,6 +331,8 @@ And place this in your activity where the list is on (for this example, Notifica
                 mAdapter.clear();
                 // ...the data has come back, add new items to your adapter...
                 mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+                //notify adapter with data changed
+                mAdapter.notifyDataSetChanged();
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);    
             } 
