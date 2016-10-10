@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.ogangi.messangi.android.sdk.Messangi;
 
@@ -36,12 +38,16 @@ public class NotificationListActivity extends AppCompatActivity
      */
     private boolean mTwoPane;
 
+    private ProgressBar loading;
+    private SwipeRefreshLayout swipeContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification_app_bar);
 
+        setContentView(R.layout.activity_notification_app_bar);
         setupMessangi();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,6 +59,17 @@ public class NotificationListActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        loading = (ProgressBar) findViewById(R.id.loadingProgressBar);
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //TODO: Add a call to refresh a fragment adapter
+                swipeContainer.setRefreshing(false);
             }
         });
 
@@ -95,20 +112,29 @@ public class NotificationListActivity extends AppCompatActivity
     }
 
     private void setupMessangi() {
-        //Here the Credentials sent to you in the Email
-        Messangi.getInstance().setAppName("");
-        Messangi.getInstance().setClientId("");
-        Messangi.getInstance().setApiClientPrivateKey("");
+
+
+         // Messangi Credentials
+         Messangi.getInstance().setAppName("");
+         Messangi.getInstance().setApiClientPrivateKey("");
+         Messangi.getInstance().setClientId("");
+
+         // GCM Credentials
+//         Messangi.getInstance().setGcmApiKey("AIzaSyDoThF8Mbagpnt4sDUy5ENf-GwfbU4zoEc");
+//         Messangi.getInstance().setGcmProjectId("554154250704");
+
         // GCM Credentials
         Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
         Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
 
 
+        Messangi.getInstance().requestLocationPermissions(this);
+        Messangi.getInstance().requestReadSMSPermission(this);
         Messangi.getInstance().init(this);
         Messangi.getInstance().addMessangiListener(Listener.getIntance());
         Messangi.getInstance().registerDialog(this, this);
-        //If you have your own registration process, and generate your userTokenID can use
-        //Messangi.getInstance().register(this,this,userTokenID);
+
+
     }
 
     /**
@@ -136,5 +162,9 @@ public class NotificationListActivity extends AppCompatActivity
             detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    protected void hideLoading(){
+        loading.setVisibility(View.GONE);
     }
 }

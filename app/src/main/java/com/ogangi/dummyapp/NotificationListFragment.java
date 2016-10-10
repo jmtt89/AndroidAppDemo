@@ -3,7 +3,6 @@ package com.ogangi.dummyapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListView;
 
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NotificationListFragment extends ListFragment {
+public class NotificationListFragment extends ListFragment implements NotificationCallback{
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -45,6 +44,39 @@ public class NotificationListFragment extends ListFragment {
      * The Custom Adapter to list Notifications
      */
     private NotificationAdapter mAdapter;
+
+    @Override
+    public void messangiReady() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Remember to CLEAR OUT old items before appending in the new ones
+                mAdapter.clear();
+                // ...the data has come back, add new items to your adapter...
+                mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+
+                mAdapter.notifyDataSetChanged();
+
+                ((NotificationListActivity) getActivity()).hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void reloadNotificationList() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Messangi.getInstance().getUnreadMessages(getContext());
+                // Remember to CLEAR OUT old items before appending in the new ones
+                mAdapter.clear();
+                // ...the data has come back, add new items to your adapter...
+                mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -78,9 +110,8 @@ public class NotificationListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Listener.getIntance().register(this);
         mAdapter = new NotificationAdapter(getActivity(), new ArrayList<MessageVO>());
-        mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
         setListAdapter(mAdapter);
     }
 
@@ -93,20 +124,6 @@ public class NotificationListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
-
-        final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Messangi.getInstance().getUnreadMessages(getContext());
-                // Remember to CLEAR OUT old items before appending in the new ones
-                mAdapter.clear();
-                // ...the data has come back, add new items to your adapter...
-                mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
-                // Now we call setRefreshing(false) to signal refresh has finished
-                swipeContainer.setRefreshing(false);
-            }
-        });
     }
 
     @Override

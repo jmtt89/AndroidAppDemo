@@ -14,6 +14,7 @@ import com.ogangi.messangi.android.sdk.vo.MessageVO;
  */
 public class Listener implements MessangiListener {
     private static Listener intance;
+    private NotificationCallback callback;
 
     public static Listener getIntance() {
         if(intance == null){
@@ -22,11 +23,16 @@ public class Listener implements MessangiListener {
         return intance;
     }
 
+    public void register(NotificationCallback callback){
+        this.callback = callback;
+    }
+
     @Override
     public void pushReceived(MessageVO messageVO, Workspace workspace) {
         // This method will be called every time the user receives a push notification
         // via Messangi.
         // Use this method to display the content of the notification.
+        callback.reloadNotificationList();
     }
 
     @Override
@@ -39,6 +45,7 @@ public class Listener implements MessangiListener {
     @Override
     public void postInit() {
         Messangi.getInstance().synchronize();
+        callback.messangiReady();
     }
 
     @Override
