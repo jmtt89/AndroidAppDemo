@@ -119,14 +119,10 @@ public class NotificationListActivity extends AppCompatActivity
          Messangi.getInstance().setApiClientPrivateKey("");
          Messangi.getInstance().setClientId("");
 
-         // GCM Credentials
-//         Messangi.getInstance().setGcmApiKey("AIzaSyDoThF8Mbagpnt4sDUy5ENf-GwfbU4zoEc");
-//         Messangi.getInstance().setGcmProjectId("554154250704");
-
         // GCM Credentials
         Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
         Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
-
+        ;
 
         Messangi.getInstance().requestLocationPermissions(this);
         Messangi.getInstance().requestReadSMSPermission(this);
