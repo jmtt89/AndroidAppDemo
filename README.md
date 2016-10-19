@@ -3,7 +3,7 @@ Getting Started - Android Integration
 
 Use this Android sample app to prove how Messangi SDK works, or add our library to your existing app following these steps. We use **tags** in the Github repository over key moments in the integration.
 
-**Required**: The latest versions of Android Studio and Git installed on your system.
+**Required**: latest version of Android Studio and Git installed on your system.
 
 -----
 ##Get the project
@@ -23,7 +23,7 @@ $ git checkout tags/baseApp
 
 Open Android Studio.
 
-If you are in the Android Studio start screen, you can select *Open an existing Android Studio project*, browse where you cloned the repository and open it. If you are already in Android Studio, select **File > Open**, and use this same path.
+If you are in Android Studio start screen, you can select *Open an existing Android Studio project*, browse where you cloned the repository and open it. If you are already in Android Studio, select **File > Open**, and use this same path.
 
 -------
 ## Configure **Google Cloud Messaging**
