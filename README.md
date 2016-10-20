@@ -67,11 +67,11 @@ Go to https://messangi.com/messangi_mmc/ and click on **Sign up** to create a ne
 
 ### Request a GCM - Messangi Linking
 
-Send an email to *support@ogangi.com* with your Messangi credentials you've received in your registration and attach to it the **google-services.json** file you've received from Google to request the registration of your app in Messangi platform. It's the way to authorize and enable your access to the platform *as developer*.
+Send an email to *support@ogangi.com* with your Messangi credentials you've received in your registration and attach to it the **google-services.json** file and the **Server API key** you've received from Google to request the registration of your app in Messangi platform. It's the way to authorize and enable your access to the platform *as developer*.
 
 --------
 ## Configure Messangi SDK
-To start in this section you can **checkout the tag GCMReady** with git console (OJO REVISAR)
+To start in this section you can **checkout the tag GCMReady** with git console.
 
 ### Add Messangi Module 
 
@@ -88,7 +88,7 @@ To start in this section you can **checkout the tag GCMReady** with git console 
 - Select app and go to the tab “Dependencies”
 - If MessangiSDK is not a dependency, add it by clicking on “+”, select “module” and “MessangiSDK”.
 
-Currently you have to manually add dependencies for MessangiSDK, the Gradle will not automatically add them. 
+Currently you have to manually add dependencies for MessangiSDK, Gradle will not add them automatically.
 
 - Go to “Gradle Scripts” > “build.gradle(Module: app)”
 - Add the lines below in the section dependencies **before** the line “compile project(‘:messangisdk’)”
@@ -270,7 +270,8 @@ In Android 6 and above, the permission process for some functionalities needs to
 public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
     try {
         Messangi.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
-    } catch (Exception e) {
+    } 
+    catch (Exception e) {
         e.printStackTrace();
     }
 }
