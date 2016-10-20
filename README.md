@@ -28,11 +28,11 @@ If you are in Android Studio start screen, you can select *Open an existing Andr
 -------
 ## Configure **Google Cloud Messaging**
 
-Go to https://developers.google.com/mobile/add, select *Pick a platform*, then *Enable services for my Android App*, enter your **own App name** and your app's package name (for this example **com.ogangi.dummyapp**) . It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file matches the package name you entered. Press *Choose and configure services*, select *Cloud Messaging* and press *Enable Google Cloud messaging*, select *Generate configuration files* and press *Download google-services.json*. Once you have the json file you have all you needed from that page.
+Go to https://developers.google.com/mobile/add, select *Pick a platform*, then *Enable services for my Android App*, enter your **own App name** and your app's package name (for this example **com.ogangi.dummyapp**). It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file (android.defaultConfig.applicationId key) matches the package name you entered. Press *Choose and configure services*, select *Cloud Messaging* and press *Enable Google Cloud messaging*, select *Generate configuration files* and press *Download google-services.json*. Also you must copy in an external file (a txt for example) the **Server API Key** that is shown in the screen. You must give that key later on in your request to link Messangi with GCM.
 
 ### Add the configuration file to your project
 
-Copy the **google-services.json** file you just downloaded **into** the **app/ or mobile/ directory of your Android Studio project**. 
+Copy the **google-services.json** file you just downloaded **into** the **app/ directory of your Android Studio project**. 
 
 Open the Android Studio Terminal pane and use:
 
@@ -91,7 +91,7 @@ To start in this section you can **checkout the tag GCMReady** with git console 
 Currently you have to manually add dependencies for MessangiSDK, the Gradle will not automatically add them. 
 
 - Go to “Gradle Scripts” > “build.gradle(Module: app)”
-- Add the lines below in the section dependencies before the line “compile project(‘:messangisdk’)”
+- Add the lines below in the section dependencies **before** the line “compile project(‘:messangisdk’)”
 
 ```Gradle
 compile 'com.android.support:support-annotations:24.2.1'
@@ -147,9 +147,10 @@ public class MessangiReceiver extends BroadcastReceiver {
         MessageVO message = null;
         try {
             message = MessageVO.fromJson(json);
-            // Here you can do anything you want with last received notification, at moment our only print it in console
+            // Here you can do anything you want with last received notification, at the moment we only print it in console
             Log.d(TAG, "onReceive: "+message.toString());
-        }catch(Exception _e){
+        }
+        catch(Exception _e){
             _e.printStackTrace();
             Log.e(TAG, "onReceive: "+ _e.getLocalizedMessage(), _e);
         }
@@ -226,8 +227,10 @@ Messangi.getInstance().setApiClientPrivateKey("Secret Key on Email");
 Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
 Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
 
+Messangi.getInstance().requestLocationPermissions(this);
+Messangi.getInstance().requestReadSMSPermission(this);
 Messangi.getInstance().init(this);
-Messangi.getInstance().addMessangiListener(Listener.getIntance()); //you also can add an object instance of Listener
+Messangi.getInstance().addMessangiListener(Listener.getInstance());
 Messangi.getInstance().registerDialog(this, this);
 ```
 
@@ -279,9 +282,9 @@ To start in this section you can **checkout the tag MessangiSDKReady**
 
 This section will do the most basic interaction with the library, if you want to make things more complicated please see the section of [advanced topics]().
 
-MessangiSDK support multiple workspaces enviroment, a workspace is equivalent to a Messangi Account, so if you want you can create multiple accounts and receive notification from all them in the same app, so to referencing all information stored in each workspace, we provide **Workspace** Class. 
+MessangiSDK supports multiple workspace enviroments, a workspace is equivalent to a Messangi Account, so if you want you can create multiple accounts and receive notification from all them in the same app, so to reference all information stored in each workspace, we provide **Workspace** Class. 
 
-This class is the entry point for every information stored in your workspace, accessed thorugh Messangi. MessangiSDK provides a easy way to get the default registered workspace. The default workspace is already set in the main register in configuration section above. When you want to get your default workspace use:
+This class is the entry point for every information stored in your workspace, accessed through Messangi. MessangiSDK provides an easy way to get the default registered workspace. The default workspace is already set in the main register in configuration section above. When you want to get your default workspace use:
 
 ```Java
 Workspace default = Messangi.getInstance().getDefaultWorkspace();
