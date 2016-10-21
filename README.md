@@ -281,14 +281,12 @@ public void onRequestPermissionsResult(int requestCode, String permissions[], in
 
 To start in this section you can **checkout the tag MessangiSDKReady**
 
-This section will do the most basic interaction with the library, if you want to make things more complicated please see the section of [advanced topics]().
-
 MessangiSDK supports multiple workspace enviroments, a workspace is equivalent to a Messangi Account, so if you want you can create multiple accounts and receive notification from all them in the same app, so to reference all information stored in each workspace, we provide **Workspace** Class. 
 
 This class is the entry point for every information stored in your workspace, accessed through Messangi. MessangiSDK provides an easy way to get the default registered workspace. The default workspace is already set in the main register in configuration section above. When you want to get your default workspace use:
 
 ```Java
-Workspace default = Messangi.getInstance().getDefaultWorkspace();
+Workspace defaultWorkspace = Messangi.getInstance().getDefaultWorkspace();
 ```
 
 ###  List stored messages
@@ -298,20 +296,20 @@ The main functionality of this example application is only to show stored messag
 To list stored messages you only need to call **getMessages()** from workspace.
 
 ```Java
-default.getMessages();
+defaultWorkspace.getMessages();
 ```
 
-To get a single message, you need pass the context and the messageID, this is the functionality that we use to show a detail view for the message.
+To get a single message, you need to pass the context and the messageID, this is the functionality we use to show a detailed view for the message.
 
 ```Java
-default.getMessages(this,"Message ID");
+defaultWorkspace.getMessages(this,"Message ID");
 ```
 
 ### Synchronize unread messages
 
-The most classic interaction on Android is pull to refresh gesture, so when pulling a list we want Messangi to update all messages with all new messages in the server. 
+The most classic interaction on Android is swipe-to-refresh gesture, so when pulling a list down we want Messangi to update  messages list with all new messages in the server. 
 
-For easy integration of swipe to refresh, Android provides a **SwipeRefreshLayout**, only wrap up your listview layout or recycle view in layout file
+For an easy integration of swipe to refresh, Android provides a **SwipeRefreshLayout**, only wrap up your listview layout or recycle view in layout file
 
 ```xml
 <android.support.v4.widget.SwipeRefreshLayout
@@ -322,28 +320,50 @@ For easy integration of swipe to refresh, Android provides a **SwipeRefreshLayou
     .... //your layout here
 </android.support.v4.widget.SwipeRefreshLayout>
 ```
-And place this in your activity where the list is on (for this example, NotificationListFragment in onViewCreated() method)
+And place this in your activity where the list is on.
 
 ```Java
     final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
-    swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-    swipeContainer.setOnRefreshListener(new OnRefreshListener() {
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-            public void onRefresh() {
-                Messangi.getInstance().getUnreadMessages(getContext());
-                // Remember to CLEAR OUT old items before appending in the new ones
-                mAdapter.clear();
-                // ...the data has come back, add new items to your adapter...
-                mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
-                //notify adapter with data changed
-                mAdapter.notifyDataSetChanged();
-                // Now we call setRefreshing(false) to signal refresh has finished
-                swipeContainer.setRefreshing(false);    
-            } 
+        public void onRefresh() {
+            Messangi.getInstance().getUnreadMessages(getContext());
+            // Remember to CLEAR OUT old items before appending in the new ones
+            mAdapter.clear();
+            // ...the data has come back, add new items to your adapter...
+            mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+            //notify adapter with data changed
+            mAdapter.notifyDataSetChanged();
+            // Now we call setRefreshing(false) to signal refresh has finished
+            swipeContainer.setRefreshing(false);    
+        } 
 
-        });
+    });
 ```
 
+For this example, in NotificationListFragment add method
+
+```Java
+    public void refreshMessages(){
+        Messangi.getInstance().getUnreadMessages(getContext());
+        // Remember to CLEAR OUT old items before appending in the new ones
+        mAdapter.clear();
+        // ...the data has come back, add new items to your adapter...
+        mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+        //notify adapter with data changed
+        mAdapter.notifyDataSetChanged();
+    }
+```
+
+And call it in the onRefresh method inside setOnRefreshListener of the object swipeContainer in onCreate:
+
+```Java
+    NotificationListFragment fragment = (NotificationListFragment) getSupportFragmentManager().findFragmentById(R.id.notification_list);
+    fragment.refreshMessages();
+    // Now we call setRefreshing(false) to signal refresh has finished
+    swipeContainer.setRefreshing(false);
+```
 
 ## Sending Push Messages
-//>> Agregar aqui un caso de uso o ejemplo de funcionalidad basico utiliando el MMC, si creas un video tanto mejor.
+
+To test your Push deliveries, go to your campaign manager and log in with the credentials you got in the registration mail. Then go to the Menu in the upper left corner, select Blasting -> Broadcast. Click on **New** button. Use "main list", select **PUSH** as Delivery method and set a Campaign name and a text. Click on **Send** and **Confirm** in the dialog window. The message you sent will be received and displayed in your app.
