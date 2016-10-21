@@ -1,44 +1,40 @@
-Getting Started - Android
+Getting Started - Android Integration
 ===================
-[TOC]
 
-Use our Android sample app to see how Messangi SDK works, or add our library to your existing app, we use **tags** over a key moments in the integration. 
+Use this Android sample app to prove how Messangi SDK works, or add our library to your existing app following these steps. We use **tags** in the Github repository over key moments in the integration.
 
-**Required**: The latest versions of Android Studio and Google Play Services. 
-
-The Base application, without MessangiSDK integration can be found over the tag #baseApp
+**Required**: latest version of Android Studio and Git installed on your system.
 
 -----
 ##Get the project
 
-If this is your first time using a Messangi App sample, check out the repository.
+Clone the repository in the directory you choose using git:
 
 ```shell
 $ git clone https://github.com/jmtt89/AndroidAppSkeleton.git
 ```
 
+The Base application, without MessangiSDK integration can be found over the tag **baseApp**. Hint: chekout it using git console, not using Android Studio repository menu.
+
+```shell
+cd AndroidAppSkeleton
+$ git checkout tags/baseApp
+```
+
 Open Android Studio.
 
-Select **File > Open**, browse to where you cloned the repository, and open it  (if you are in the Android Studio start screen, you can select Import Non-Android Studio project and use this same path).
-
+If you are in Android Studio start screen, you can select *Open an existing Android Studio project*, browse where you cloned the repository and open it. If you are already in Android Studio, select **File > Open**, and use this same path.
 
 -------
-## Configure **GCM**
+## Configure **Google Cloud Messaging**
 
-Use the package name **com.ogangi.dummyapp** for the sample.
-
-After you complete the registration, download the **google-services.json** file and add to your project.
-
-This section are ready but for security reason can't be uploaded to the Repository, your need add your own **google-services.json** file..
-
-###Create an API project
-
-Go to https://developers.google.com/mobile/add and, when prompted, enter your app's package name(for this example is **com.ogangi.dummyapp**). It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file matches the package name you entered. 
-At the end, you'll download a google-services.json file. You can download this file again at any time.
+Go to https://developers.google.com/mobile/add, select *Pick a platform*, then *Enable services for my Android App*, enter your **own App name** and your app's package name (for this example **com.ogangi.dummyapp**). It's important to enter the package name your app is using. Make sure the **package name** in your **build.gradle** file (android.defaultConfig.applicationId key) matches the package name you entered. Press *Choose and configure services*, select *Cloud Messaging* and press *Enable Google Cloud messaging*, select *Generate configuration files* and press *Download google-services.json*. Also you must copy in an external file (a txt for example) the **Server API Key** that is shown in the screen. You must give that key later on in your request to link Messangi with GCM.
 
 ### Add the configuration file to your project
-Copy the **google-services.json** file you just downloaded **into** the **app/ or mobile/ directory of your Android Studio project**. 
-Open the Android Studio Terminal pane:
+
+Copy the **google-services.json** file you just downloaded **into** the **app/ directory of your Android Studio project**. 
+
+Open the Android Studio Terminal pane and use:
 
 ```shell
 $ mv path-to-download/google-services.json app/
@@ -46,38 +42,40 @@ $ mv path-to-download/google-services.json app/
 
 ### Add Google Services Gradle Plugin
 
-As part of enabling Google APIs in your Android application you may have to add the google-services plugin to your build.gradle file:
+As part of enabling Google APIs in your Android application you have to add the google-services plugin to your project-level build.gradle file:
+
 ```Gradle
 dependencies {
     classpath 'com.google.gms:google-services:3.0.0'
     // ...
 }
 ```
-Add dependencies for basic libraries required for the services you have enabled. This step **requires add this line** 
+Add dependencies for basic libraries required for the services you have enabled. To this, add the plugin to your app-level build.gradle (**at the BOTTOM of your app/build.gradle file** so no dependency collisions are introduced).
+
 ```gradle
 apply plugin: 'com.google.gms.google-services' 
 ```
-**At the bottom of your app/build.gradle file** so that no dependency collisions are introduced. 
-
+Sync your project with the changes on gradle.
 -------
 ## Create Messangi Account
-//>> Agregar aqui una explicacion corta de que es messangi y porque es cool
+
+Messangi is a platform created to handle omnichannel communications, that allows companies to enhance their engagement with their customers. Messangi provides channels like sms, email and push notifications and also adds above them some value-added products, such as geofences, scratchcards, mobile wallets and more. If you want to take advantage of all the power of Messangi platform inside your Android mobile apps, you just need to download the Messangi SDK, add it to your app, set up your account and start coding.
 
 ### Messangi Account 
-Go to https://messangi.com/messangi_mmc/public and click on **sign up** to create a new account, **check your email** for get your **Messangi Credentials**.
+
+Go to https://messangi.com/messangi_mmc/ and click on **Sign up** to create a new account, **check your email** to get your **Messangi Credentials**.
 
 ### Request a GCM - Messangi Linking
-//>> Nota, capaz existe una forma de automatizar esto o realizarlo sin necesidad de recurrir al personal de ogangi, actualmente yo lo que hago es solicitarle a Manu u Oscar
 
-Send a email to {Por definir preguntale a pancho} with **google-services.json** attached for request a linking the credentials and handler the push service.
-
+Send an email to *support@ogangi.com* with your Messangi credentials you've received in your registration and attach to it the **google-services.json** file and the **Server API key** you've received from Google to request the registration of your app in Messangi platform. It's the way to authorize and enable your access to the platform *as developer*.
 
 --------
 ## Configure Messangi SDK
-To start in this section you can **checkout the tag GCMReady**
+To start in this section you can **checkout the tag GCMReady** with git console.
 
 ### Add Messangi Module 
-- [Download Messangi Library]()
+
+- [Download Messangi Library](https://github.com/jmtt89/AndroidAppSkeleton/tree/master/messangisdk)
 - Go to File > New > New Module
 - Select “Import JAR/AAR Package” then “next”
 - Click the button “…” next to the “file name” field. 
@@ -85,26 +83,27 @@ To start in this section you can **checkout the tag GCMReady**
 - Wait Gradle synchronize.
 
 ### Add Dependencies
-- Right Click on Module and select “Open Module Settings”
-- Select the project and go to the tab “Dependencies”
+
+- Right Click on your application and select “Open Module Settings”
+- Select app and go to the tab “Dependencies”
 - If MessangiSDK is not a dependency, add it by clicking on “+”, select “module” and “MessangiSDK”.
 
-Currently you have to manually add dependencies for MessangiSDK, the Gradle will not automatically add it. 
+Currently you have to manually add dependencies for MessangiSDK, Gradle will not add them automatically.
 
-- Go to “Gradle Scripts” > “build.gradle(Module:—projectName—)”
-- Add the lines below in the section dependencies before the line “compile project(‘:messangisdk’)”
+- Go to “Gradle Scripts” > “build.gradle(Module: app)”
+- Add the lines below in the section dependencies **before** the line “compile project(‘:messangisdk’)”
 
 ```Gradle
-compile 'com.android.support:support-v4:24.2.1'
 compile 'com.android.support:support-annotations:24.2.1'
-
 compile 'com.google.android.gms:play-services-base:9.4.0'
 compile 'com.google.android.gms:play-services-location:9.4.0'
 compile 'com.google.android.gms:play-services-gcm:9.4.0'
 compile 'org.altbeacon:android-beacon-library:2.9.1'
 ```
+
 ### Add Broadcast Receiver
-Android Studio provide a easy way to generate a Broadcast Receiver, only **right click over the package** will contain, select **New > Other > Broadcast Receiver** add the name you will (for the demo application are **MessangiReceiver**) and Android Studio create a class and add info to Manifest too. 
+
+Android Studio provides an easy way to generate a Broadcast Receiver, only **right click over the package app**, select **New > Other > Broadcast Receiver** add the name you want (for the demo application you can use **MessangiReceiver**) and Android Studio will create automatically a class and add info to the Manifest file too. Change the values if they look diferent in AndroidManifest.xml file:
 
 ```Java
 <receiver
@@ -113,7 +112,8 @@ Android Studio provide a easy way to generate a Broadcast Receiver, only **right
     android:exported="false">
 </receiver>
 ```
-For working with Messangi SDK need **add a intent-filter** with name **com.ogangi.messangi.android.sdk.PUSH_NOTIFICATION**, the receiver in manifest looks like this:
+
+To work with Messangi SDK you need to **add an intent-filter** with name **com.ogangi.messangi.android.sdk.PUSH_NOTIFICATION**, the receiver in manifest looks like this:
 
 ```Java
 <receiver
@@ -125,10 +125,16 @@ For working with Messangi SDK need **add a intent-filter** with name **com.ogang
    </intent-filter>
 </receiver>
 ```
-The intent  deliver to you receiver a json representation of the message, and if you wich, can create a object MessangeVO from that json
 
+The intent  delivers to you a receiver, a json representation of the message and, if you wish, can create an object MessangeVO from that json:
 
 ```Java
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import com.ogangi.messangi.android.sdk.vo.MessageVO;
+
 public class MessangiReceiver extends BroadcastReceiver {
     private static final String TAG = "MessangiReceiver";
 
@@ -141,9 +147,10 @@ public class MessangiReceiver extends BroadcastReceiver {
         MessageVO message = null;
         try {
             message = MessageVO.fromJson(json);
-            // Here you can do anything you want with last received notification, at moment our only print it in console
+            // Here you can do anything you want with last received notification, at the moment we only print it in console
             Log.d(TAG, "onReceive: "+message.toString());
-        }catch(Exception _e){
+        }
+        catch(Exception _e){
             _e.printStackTrace();
             Log.e(TAG, "onReceive: "+ _e.getLocalizedMessage(), _e);
         }
@@ -152,9 +159,16 @@ public class MessangiReceiver extends BroadcastReceiver {
 ```
 
 ### Add Messangi Listener
-Messangi Module use the interface **MessangiListener** to notify when some event occurs, your only need implement this interface if you want  receive this notifications.
+
+Messangi Module uses the interface **MessangiListener** to notify when some event occurs, your only need to implement (in an external class or inside your main activity) this interface if you want to receive those notifications.
 
 ```java
+import android.location.Location;
+import com.google.android.gms.location.Geofence;
+import com.ogangi.messangi.android.sdk.MessangiListener;
+import com.ogangi.messangi.android.sdk.Workspace;
+import com.ogangi.messangi.android.sdk.vo.MessageVO;
+...
 public class Listener implements MessangiListener{
 ...
 }
@@ -197,28 +211,32 @@ public void onBeaconUpdate(String s, String s1, Workspace workspace) {
     // create, update or delete event.
     // NOT when arrive a Notification of beacon Enter or Exit .
 }
-
 ```
 
 ### Configure Messangi Module
-Messangi provide multiple way to **include credentials**, but the more easy and straight forward are include in **onCreate** method of the **mainActivity**, if your use a **Application** module like starting point, we support too.
+
+Messangi provides multiple ways to **include credentials**, but the easiest and straight forward way is including them into **onCreate** method of the **main activity**; if you're using an **Application** module as starting point, we support it too.
 
 ```Java
-//Here the Credentials sent to you in the Email
+//Place here the Credentials sent to you in the registration Email
 Messangi.getInstance().setAppName("App name on Email");
-Messangi.getInstance().setClientId("Public Key on Email");
-Messangi.getInstance().setApiClientPrivateKey("Private Key on Email");
+Messangi.getInstance().setClientId("Client Id on Email");
+Messangi.getInstance().setApiClientPrivateKey("Secret Key on Email");
+
 // GCM Credentials
 Messangi.getInstance().setGcmApiKey(getString(R.string.gcm_api_key));
 Messangi.getInstance().setGcmProjectId(getString(R.string.gcm_defaultSenderId));
 
+Messangi.getInstance().requestLocationPermissions(this);
+Messangi.getInstance().requestReadSMSPermission(this);
 Messangi.getInstance().init(this);
-Messangi.getInstance().addMessangiListener(Listener.getIntance());
+Messangi.getInstance().addMessangiListener(Listener.getInstance());
 Messangi.getInstance().registerDialog(this, this);
 ```
-When the **Registration process are completed**, the SDK call a **postInit** method **on MessangiListener implementation**. 
 
-After Messangi are already configured are strongly recommended add a life circle  indicator, to notify when the app are in Background or Foreground.
+When the **Registration process is completed**, the SDK calls a **postInit** method **on MessangiListener implementation**. 
+
+After Messangi is already configured, it's strongly recommended to add a life cicle indicator, to notify when the app is in Background or Foreground. Add it in your main activity and in all activities where Messangi is invoked.
 
 ```Java
 @Override
@@ -226,6 +244,7 @@ protected void onResume() {
     super.onResume();
     Messangi.getInstance().bindService();
 }
+
 @Override
 protected void onPause() {
     Messangi.getInstance().unBindService();
@@ -233,7 +252,7 @@ protected void onPause() {
 }
 ```
 
-The synchronization process is very important if your use Geofence, Beacons or Location-aware capabilities, this method synchronize all information in Messangi System; the best moment to do this are on postInit method, is strongly recomended use a Background Thread to all Network calls.
+The synchronization process is very important if you use Geofence, Beacons or Location-aware capabilities. This method synchronizes all information in Messangi System; the best moment to do this are on postInit method, is strongly recomended use a Background Thread to all Network calls.
 
 ```Java
 @Override
@@ -243,50 +262,54 @@ public void postInit() {
 ```
 
 ### Android Permissions
-In Android 6 and upper, the permission process for some functionalities need to be accepted by the user in Runtime, if the user don't accept that, multiples internal functionalities don't work as expected
+
+In Android 6 and above, the permission process for some functionalities needs to be accepted by the user in Runtime, if the user don't accept that, multiples internal functionalities won't work as expected. Use this in your main activity:
 
 ```Java
 @Override
 public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
     try {
         Messangi.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
-    } catch (Exception e) {
+    } 
+    catch (Exception e) {
         e.printStackTrace();
     }
 }
 ```
 
 ## Using Messangi SDK
+
 To start in this section you can **checkout the tag MessangiSDKReady**
 
-This section will do the most basic interaction with the library, if you want to make things more complicated please see the section of [advanced topics]().
+MessangiSDK supports multiple workspace enviroments, a workspace is equivalent to a Messangi Account, so if you want you can create multiple accounts and receive notification from all them in the same app, so to reference all information stored in each workspace, we provide **Workspace** Class. 
 
-MessangiSDK support multiple workspaces enviroment, a workspace is equivalent to Messangi Account, so if you want you can create multiple accounts and receive notification from all that in the same app, so for referencing all information stored in every workspace, we provide a **Workspace** Class. 
-
-This class are the entry point for every information stored in your backend. MessangiSDK provides a easy way to get the default workspace register. The default workspace are the main register in configuration section. 
+This class is the entry point for every information stored in your workspace, accessed through Messangi. MessangiSDK provides an easy way to get the default registered workspace. The default workspace is already set in the main register in configuration section above. When you want to get your default workspace use:
 
 ```Java
-Workspace default = Messangi.getInstance().getDefaultWorkspace();
+Workspace defaultWorkspace = Messangi.getInstance().getDefaultWorkspace();
 ```
 
 ###  List stored messages
-The main functionality of that application are only show stored messages, for that we **remove the placeholder class Notification** and change for the class MessageVO provided by the SDK. 
 
-For List a stored messages only need call **getMessages()** from workspace.
+The main functionality of this example application is only to show stored messages, to start with that functionality **remove the package Notification**, change every reference to it for the class MessageVO provided by the SDK, and replace all Controller.getNotifications() with Messangi.getInstance().getDefaultWorkspace().getMessages().
+
+To list stored messages you only need to call **getMessages()** from workspace.
+
 ```Java
-default.getMessages();
+defaultWorkspace.getMessages();
 ```
 
-For get a single message, you need pass context and the messageID, this functionality we use to show a detail view for the message.
+To get a single message, you need to pass the context and the messageID, this is the functionality we use to show a detailed view for the message.
 
 ```Java
-default.getMessages(this,"Message ID");
+defaultWorkspace.getMessages(this,"Message ID");
 ```
 
 ### Synchronize unread messages
-The most classic interaction on Android is pull to refresh gesture, so when pull a list we want Messangi update all messages with all new message in the server. 
 
-For easy integration of swipe to refresh, android provides a **SwipeRefreshLayout**, only wrap up your listview or recicle view in layout file 
+The most classic interaction on Android is swipe-to-refresh gesture, so when pulling a list down we want Messangi to update  messages list with all new messages in the server. 
+
+For an easy integration of swipe to refresh, Android provides a **SwipeRefreshLayout**, only wrap up your listview layout or recycle view in layout file
 
 ```xml
 <android.support.v4.widget.SwipeRefreshLayout
@@ -294,28 +317,53 @@ For easy integration of swipe to refresh, android provides a **SwipeRefreshLayou
     android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    ....
+    .... //your layout here
 </android.support.v4.widget.SwipeRefreshLayout>
 ```
-And search in your activity 
+And place this in your activity where the list is on.
 
 ```Java
-   swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-    swipeContainer.setOnRefreshListener(new OnRefreshListener() {
+    final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-            public void onRefresh() {
-                Messangi.getInstance().getUnreadMessages(getContext());
-                // Remember to CLEAR OUT old items before appending in the new ones
-                mAdapter.clear();
-                // ...the data has come back, add new items to your adapter...
-                mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
-                // Now we call setRefreshing(false) to signal refresh has finished
-                swipeContainer.setRefreshing(false);    
-            } 
+        public void onRefresh() {
+            Messangi.getInstance().getUnreadMessages(getContext());
+            // Remember to CLEAR OUT old items before appending in the new ones
+            mAdapter.clear();
+            // ...the data has come back, add new items to your adapter...
+            mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+            //notify adapter with data changed
+            mAdapter.notifyDataSetChanged();
+            // Now we call setRefreshing(false) to signal refresh has finished
+            swipeContainer.setRefreshing(false);    
+        } 
 
-        });
+    });
 ```
 
+For this example, in NotificationListFragment add method
+
+```Java
+    public void refreshMessages(){
+        Messangi.getInstance().getUnreadMessages(getContext());
+        // Remember to CLEAR OUT old items before appending in the new ones
+        mAdapter.clear();
+        // ...the data has come back, add new items to your adapter...
+        mAdapter.addAll(Messangi.getInstance().getDefaultWorkspace().getMessages());
+        //notify adapter with data changed
+        mAdapter.notifyDataSetChanged();
+    }
+```
+
+And call it in the onRefresh method inside setOnRefreshListener of the object swipeContainer in onCreate:
+
+```Java
+    NotificationListFragment fragment = (NotificationListFragment) getSupportFragmentManager().findFragmentById(R.id.notification_list);
+    fragment.refreshMessages();
+    // Now we call setRefreshing(false) to signal refresh has finished
+    swipeContainer.setRefreshing(false);
+```
 
 ## Sending Push Messages
-//>> Agregar aqui un caso de uso o ejemplo de funcionalidad basico utiliando el MMC, si creas un video tanto mejor.
+
+To test your Push deliveries, go to your campaign manager and log in with the credentials you got in the registration mail. Then go to the Menu in the upper left corner, select Blasting -> Broadcast. Click on **New** button. Use "main list", select **PUSH** as Delivery method and set a Campaign name and a text. Click on **Send** and **Confirm** in the dialog window. The message you sent will be received and displayed in your app.
