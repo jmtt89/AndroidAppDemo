@@ -11,7 +11,7 @@ Use this Android sample app to prove how Messangi SDK works, or add our library 
 Clone the repository in the directory you choose using git:
 
 ```shell
-$ git clone https://github.com/jmtt89/AndroidAppSkeleton.git
+$ git clone https://github.com/messangi/AndroidAppDemo.git
 ```
 
 The Base application, without MessangiSDK integration can be found over the tag **baseApp**. Hint: chekout it using git console, not using Android Studio repository menu.
